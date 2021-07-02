@@ -1,3 +1,8 @@
+# Added
+node_modules/
+highwind_jsons/
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
