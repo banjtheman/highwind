@@ -79,7 +79,6 @@ def opensea() -> None:
     st.subheader("OpenSea")
 
     contracts = load_contracts()
-
     contracts_list = list(contracts.keys())
 
     st.subheader("Select Contract")
@@ -162,7 +161,6 @@ def create_item():
         st.session_state.attrs -= 1
 
     attr_types = ["Text", "Number", "Date"]
-
     attr_list = []
 
     for index in range(st.session_state.attrs):
@@ -468,8 +466,6 @@ def deploy() -> None:
             st.subheader("Deployed")
             st.balloons()
 
-
-# 0xc40b0C72869dCFf8FA8E55B7FD954d5674A10643
 def sidebar() -> None:
     """
     Purpose:

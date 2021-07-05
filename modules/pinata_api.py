@@ -1,10 +1,8 @@
 import json
-import logging
 from typing import Type, Union, Dict, Any, List
 import requests
 import os
-
-from requests.packages.urllib3.filepost import encode_multipart_formdata
+from pathlib import Path
 
 
 def pinJSONToIPFS(
@@ -15,6 +13,8 @@ def pinJSONToIPFS(
         PIN a json obj to IPFS
     Args:
         json_obj - The json obj
+        pinata_api_key - pinata api key
+        pinata_secret - pinata secret key
     Returns:
         ipfs json - data from pin
     """
@@ -35,15 +35,16 @@ def pinJSONToIPFS(
     return response.json()
 
 
-# TODO how can we pin filedata...
 def pinContentToIPFS(
-    content: bytes, metadata: Dict[str, Any], pinata_api_key: str, pinata_secret: str
+    filepath: str, pinata_api_key: str, pinata_secret: str
 ) -> Dict[str, Any]:
     """
     Purpose:
-        PIN a json obj to IPFS
+        PIN a file obj to IPFS
     Args:
-        json_obj - The json obj
+        filepath - file path
+        pinata_api_key - pinata api key
+        pinata_secret - pinata secret key
     Returns:
         ipfs json - data from pin
     """
@@ -53,22 +54,21 @@ def pinContentToIPFS(
         "pinata_secret_api_key": pinata_secret,
     }
 
-    payload = {"pinataMetadata": metadata}
-
-    # files = {"file": content, "pinataMetadata": metadata}
-    bytes_payload = json.dumps(payload).encode("utf-8")
-
-    # multipart_form_data = {"file": content, "parameters": bytes_payload}
-
-    multipart_form_data = {"file": content}
-
-    # encoded_data = encode_multipart_formdata(multipart_form_data)
-
     endpoint_uri = "https://api.pinata.cloud/pinning/pinFileToIPFS"
-    response = requests.post(endpoint_uri, data=multipart_form_data, headers=HEADERS)
-    print(response.text)
-    print(response.headers)
-    return response.json()
+
+    filename = filepath.split("/")[-1:][0]
+
+    with Path(filepath).open("rb") as fp:
+        image_binary = fp.read()
+        response = requests.post(
+            endpoint_uri, files={"file": (filename, image_binary)}, headers=HEADERS
+        )
+        print(response.json())
+
+        # response = requests.post(endpoint_uri, data=multipart_form_data, headers=HEADERS)
+        # print(response.text)
+        # print(response.headers)
+        return response.json()
 
 
 def pinSearch(
@@ -79,6 +79,8 @@ def pinSearch(
         Query pins for data
     Args:
         query - the query str
+        pinata_api_key - pinata api key
+        pinata_secret - pinata secret key
     Returns:
         data - array of pined objects
     """
