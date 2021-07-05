@@ -84,11 +84,10 @@ def opensea() -> None:
     st.subheader("Select Contract")
     contract_name = st.selectbox("Contract", contracts_list)
 
-    # if no contracts stop 
+    # if no contracts stop
     if len(contracts_list) == 0:
         st.warning("Deploy a contract first")
         st.stop()
-
 
     token_name = contracts[contract_name]["token_name"].lower()
     contract = contracts[contract_name]["contract_address"]
@@ -240,7 +239,7 @@ def mint() -> None:
     st.subheader("Select Contract for minting")
     contract_name = st.selectbox("Contract", contracts_list)
 
-    # if no contracts stop 
+    # if no contracts stop
     if len(contracts_list) == 0:
         st.warning("Deploy a contract first")
         st.stop()
@@ -428,8 +427,17 @@ def deploy() -> None:
             with st.beta_expander("Log output"):
                 st.write(output)
 
-            cas = output.split("contract address:    ")
-            contract_address = cas[2].split(" ")[0].strip()
+            try:
+                cas = output.split("contract address:    ")
+                contract_address = cas[2].split(" ")[0].strip()
+            except:
+                if network == "mumbai":
+                    token = "MATIC"
+                else:
+                    token = "ETH"
+                st.warning(f"Do you have enough {token} in wallet {public_key}?")
+                st.error("Check log output for error details")
+                st.stop()
 
             if network == "mumbai":
                 scan_url = "https://explorer-mumbai.maticvigil.com/address/"
@@ -465,6 +473,7 @@ def deploy() -> None:
             utils.save_json(file_name, contract_json)
             st.subheader("Deployed")
             st.balloons()
+
 
 def sidebar() -> None:
     """
