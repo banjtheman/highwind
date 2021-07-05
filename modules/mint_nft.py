@@ -58,7 +58,7 @@ def set_up_blockchain(
 
     eth_json = {}
 
-    if network == "rinkerby":
+    if network == "rinkeby":
 
         RINK_API_URL = f"https://rinkeby.infura.io/v3/{INFURA_KEY}"
 

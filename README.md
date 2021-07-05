@@ -41,3 +41,34 @@ cd highwind
 ```
 
 
+## Deploy
+
+With Highwind you can deploy Smart Contracts easily just by entering in your wallet info and infura key. You will need to have some ETH/MATIC in your wallet depending on the network. The faucet links are displayed in the UI.
+
+![Deploy contract](images/deploy_contract.png)
+
+
+## Create Item
+
+With Highwind, you can easily create item metadata that is uploaded to [IPFS](https://ipfs.io/) powered by [Pinata](https://pinata.cloud/). Simply enter in the infromation and press the Pin button
+
+
+![Enter Item](images/enter_item.png)
+
+![Create Item](images/create_item.png)
+
+
+## Mint Item
+
+Once you have created an item, you can now mint it on the blockchain. Enter the address you would like to send the NFT to, and press the mint button.
+
+
+![Mint item](images/mint_item.png)
+
+
+
+## View on OpenSea
+
+Once items have been minted, you can view your collection and items on OpenSea. 
+
+![View on OpenSea](images/opensea_item.png)
