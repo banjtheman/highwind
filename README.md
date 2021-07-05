@@ -5,7 +5,7 @@
 Leveraging Streamlit, Docker and web3 this tool is run on your local machine and works straight out of the box without any advanced configruation.
 
 
-[](videos/streamlit-highwind_st_intro.webm)
+![Deploy contract](images/deploy_contract.png)
 
 ## Requirements
 
