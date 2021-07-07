@@ -16,6 +16,7 @@ ADD migrations_temp /home/migrations_temp/
 ADD contracts_temp /home/contracts_temp/
 ADD truffle.js /home/
 ADD migrations_temp /home/migrations/
+ADD scripts/ /home/scripts/
 
 # Make dirs
 RUN mkdir -p /home/build
