@@ -70,9 +70,9 @@ You can also run a standalone scripts to interact with NFTs
 
 ### Mint NFT
 
-This script allows you to mint and NFT with a token metadata url from a contract, and send the NFT to an address.
+This script allows you to mint and NFT with a token metadata URL from a contract and send the NFT to an address.
 
-You need to set some environment variables, and pass in arugments to get the script to work. Here is an end to end example
+You need to set some environment variables, and pass in arguments to get the script to work. Here is an end-to-end example
 ```
 ./build_docker.sh
 ./run_docker.sh
@@ -85,7 +85,7 @@ export NETWORK="mumbai"
 python mint_nft.py --contract_address CONTRACT_ADDRESS --abi_path ABI_PATH --to_address TO_ADDRESS --token_metadata_url
 ```
 
-Example runnning the script
+Example running the script
 ```
 python mint_nft.py --contract_address "0x6DF98FB9cDfDa02F7d0A53c544520A3a2f9E6eC8" --abi_path "../build/contracts_WitcherCoin/WitcherCoin.json" --to_address "0xd714c8126D36b286d88c4F5Dc7f7f361b92acF11" --token_metadata_url "ipfs://QmSjxUGeqbUSFL5KWwV1x9aGw7QfygmjDiqM2MLhJdr9kP"
 ```
@@ -100,4 +100,4 @@ INFO: Scan url for token 4: https://explorer-mumbai.maticvigil.com/tx/0xdf4cd44c
 ```
 
 
-If you want to mint a bunch of nfts can easily add in looping logic, but be weary of gas fees.
+If you want to mint a bunch of NFTs can easily add in looping logic but be weary of gas fees.
