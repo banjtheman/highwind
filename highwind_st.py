@@ -4,7 +4,6 @@ Purpose:
 """
 
 # Python imports
-import logging
 import os
 import streamlit as st
 from typing import Type, Union, Dict, Any, List
@@ -91,9 +90,15 @@ def opensea() -> None:
 
     token_name = contracts[contract_name]["token_name"].lower()
     contract = contracts[contract_name]["contract_address"]
+    network = contracts[contract_name]["network"]
+
+    if network == "mumbai" or network == "rinkeby":
+        opensea_url = f"https://testnets.opensea.io/collection/{token_name}/"
+    else:
+        opensea_url = f"https://opensea.io/collection/{token_name}/"
 
     st.write(f"Contract address: {contract}")
-    st.write(f"OpenSea URL: https://testnets.opensea.io/collection/{token_name}/")
+    st.write(f"OpenSea URL: {opensea_url}")
 
     components.iframe(
         f"https://testnets.opensea.io/collection/{token_name}/",
@@ -259,6 +264,12 @@ def mint() -> None:
         st.write("The Faucet allows you to get free eth on test networks")
         st.write("https://faucet.rinkeby.io/")
 
+    elif network == "polygon":
+        st.info("This is the Polygon Mainnet using REAL FUNDS")
+
+    elif network == "ethereum":
+        st.info("This is the Ethereum Mainnet using REAL FUNDS")
+
     st.subheader("NFT Info")
     st.write(
         f'{contracts[contract_name]["token_name"]}  - {contracts[contract_name]["token_symbol"]} '
@@ -338,9 +349,13 @@ def mint() -> None:
                     txn_hash = mint_nft.web3_mint(token_address, token_uri, eth_json)
 
                     if network == "mumbai":
-                        scan_url = "https://explorer-mumbai.maticvigil.com/tx/"
+                        scan_url = "https://mumbai.polygonscan.com/tx/"
                     elif network == "rinkeby":
                         scan_url = "https://rinkeby.etherscan.io/tx/"
+                    elif network == "polygon":
+                        scan_url = "https://polygonscan.com/tx/"
+                    elif network == "ethereum":
+                        scan_url = "https://etherscan.io/tx/"
 
                     st.success(f"txn hash: {txn_hash}")
                     st.write(f"{scan_url}{txn_hash}")
@@ -360,7 +375,7 @@ def deploy() -> None:
     st.subheader("Deploy Contracts")
 
     # Deploy Contracts
-    networks = ["mumbai", "rinkeby"]
+    networks = ["mumbai", "rinkeby", "polygon", "ethereum"]
     st.subheader("Network")
     st.write("Select the network to deploy your smart contract")
     network = st.selectbox("Network", networks)
@@ -376,6 +391,12 @@ def deploy() -> None:
         st.subheader("Faucet")
         st.write("The Faucet allows you to get free eth on test networks")
         st.write("https://faucet.rinkeby.io/")
+
+    elif network == "polygon":
+        st.info("This is the Polygon Mainnet using REAL FUNDS")
+
+    elif network == "ethereum":
+        st.info("This is the Ethereum Mainnet using REAL FUNDS")
 
     st.subheader("NFT Name")
 
@@ -431,7 +452,7 @@ def deploy() -> None:
                 cas = output.split("contract address:    ")
                 contract_address = cas[2].split(" ")[0].strip()
             except:
-                if network == "mumbai":
+                if network == "mumbai" or network == "polygon":
                     token = "MATIC"
                 else:
                     token = "ETH"
@@ -440,9 +461,14 @@ def deploy() -> None:
                 st.stop()
 
             if network == "mumbai":
-                scan_url = "https://explorer-mumbai.maticvigil.com/address/"
+                scan_url = "https://mumbai.polygonscan.com/address/"
             elif network == "rinkeby":
                 scan_url = "https://rinkeby.etherscan.io/address/"
+
+            elif network == "polygon":
+                scan_url = "https://polygonscan.com/address/"
+            elif network == "ethereum":
+                scan_url = "https://etherscan.io/address/"
 
             st.success(f"Contract Address: {contract_address}")
             st.write(f"{scan_url}{contract_address}")

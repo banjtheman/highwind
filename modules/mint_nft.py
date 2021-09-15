@@ -38,9 +38,14 @@ def set_up_blockchain(
     Purpose:
        Setup all blockchain items
     Args:
-        path_to_json (String): Path to  json file
+        contract: contract address
+        abi_path: abi path
+        public_key: public key,
+        private_key: private key,
+        infura_key: infura key,
+        network: network,
     Returns:
-        Conf: JSON file if loaded, else None
+        Conf: JSON file with eth details
     """
     ############ Ethereum Setup ############
 
@@ -81,7 +86,7 @@ def set_up_blockchain(
         open_sea_url = f"https://testnets.opensea.io/assets/{contract}/"
         scan_url = "https://explorer-mumbai.maticvigil.com/tx/"
 
-    elif network == "matic_main":
+    elif network == "polygon":
         POLYGON_API_URL = f"https://polygon-mainnet.infura.io/v3/{INFURA_KEY}"
 
         w3 = Web3(Web3.HTTPProvider(POLYGON_API_URL))
@@ -91,6 +96,18 @@ def set_up_blockchain(
 
         open_sea_url = f"https://opensea.io/assets/matic/{contract}/"
         scan_url = "https://polygonscan.com/tx/"
+
+    if network == "ethereum":
+
+        ETH_API_URL = f"https://mainnet.infura.io/v3/{INFURA_KEY}"
+
+        w3 = Web3(Web3.HTTPProvider(ETH_API_URL))
+        ABI = load_json(abi_path)["abi"]  # get the ABI
+        CODE_NFT = w3.eth.contract(address=contract, abi=ABI)  # The contract
+        CHAIN_ID = 1
+
+        open_sea_url = f"https://opensea.io/assets/{contract}/"
+        scan_url = "https://etherscan.io/tx/"
 
     else:
         logging.error("Invalid network")
@@ -115,6 +132,8 @@ def web3_mint(userAddress: str, tokenURI: str, eth_json: Dict[str, Any]) -> str:
         mint a token for user on blockchain
     Args:
         userAddress - the user to mint for
+        tokenURI - uri for token
+        eth_json - blockchain info
     Returns:
         hash - txn of mint
         tokenid - token minted
